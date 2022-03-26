@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.just.repository.mapper.RainbowMapper">
+
+    <resultMap id="BaseResultMap" type="com.just.repository.models.Rainbow">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="mayday" column="mayday" jdbcType="VARCHAR"/>
+        <result property="hitCnt" column="hit_cnt" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,mayday,hit_cnt
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from rainbow
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from rainbow
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.just.repository.models.Rainbow"
+            useGeneratedKeys="true">
+        insert into rainbow
+        (id, mayday, hit_cnt)
+        values (#{id,jdbcType=INTEGER}, #{mayday,jdbcType=VARCHAR}, #{hitCnt,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.just.repository.models.Rainbow"
+            useGeneratedKeys="true">
+        insert into rainbow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="mayday != null">mayday,</if>
+            <if test="hitCnt != null">hit_cnt,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">id = #{id,jdbcType=INTEGER},</if>
+            <if test="mayday != null">mayday = #{mayday,jdbcType=VARCHAR},</if>
+            <if test="hitCnt != null">hit_cnt = #{hitCnt,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.just.repository.models.Rainbow">
+        update rainbow
+        <set>
+            <if test="mayday != null">
+                mayday = #{mayday,jdbcType=VARCHAR},
+            </if>
+            <if test="hitCnt != null">
+                hit_cnt = #{hitCnt,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.just.repository.models.Rainbow">
+        update rainbow
+        set mayday  = #{mayday,jdbcType=VARCHAR},
+            hit_cnt = #{hitCnt,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
